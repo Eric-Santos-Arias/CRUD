@@ -31,13 +31,15 @@ app.get("/alumnos", async (req, res) => {
 
 // crear alumno
 app.post("/alumnos", async (req, res) => {
+  const patter = /^\d{8}$/;
   try {
     const { nombre, apellido, telefono, direccion } = req.body;
-    const result = await pool.query(
-      "INSERT INTO alumnos (nombre, apellido, telefono, direccion) VALUES ($1,$2,$3,$4) RETURNING *",
-      [nombre, apellido, telefono, direccion]
-    );
-
+    if (patter.test(telefono)) {
+      const result = await pool.query(
+        "INSERT INTO alumnos (nombre, apellido, telefono, direccion) VALUES ($1,$2,$3,$4) RETURNING *",
+        [nombre, apellido, telefono, direccion]
+      );
+    }
     res.json(result.rows[0]);
   } catch (error) {
     console.error(error);
@@ -48,22 +50,26 @@ app.post("/alumnos", async (req, res) => {
 
 // actualizar alumno
 app.put("/alumnos/:id", async (req, res) => {
+  const pattern = /^\d{8}$/;
   try {
     const { id } = req.params;
     const { nombre, apellido, telefono, direccion } = req.body;
+    if (pattern.test(telefono)) {
+      const result = await pool.query(
+        "UPDATE alumnos SET nombre=$1, apellido=$2, telefono=$3, direccion=$4 WHERE id=$5 RETURNING *",
+        [nombre, apellido, telefono, direccion, id]
+      )
 
-    const result = await pool.query(
-      "UPDATE alumnos SET nombre=$1, apellido=$2, telefono=$3, direccion=$4 WHERE id=$5 RETURNING *",
-      [nombre, apellido, telefono, direccion, id]
-    )
+      if (result.rows.length === 0) {
+        return res.status(404).json({
+          error: "Alumno no encontrado"
+        });
+      }
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({
-        error: "Alumno no encontrado"
-      });
+      res.json(result.rows[0]);
+    } else {
+      console.log("No se actualizo!")
     }
-
-    res.json(result.rows[0]);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error al actualizar alumno" });

@@ -18,12 +18,12 @@
       <div class="row">
         <div class="col-md-6 mb-3">
           <label>Nombre</label>
-          <input type="text" id="nombre" class="form-control" required>
+          <input type="text" id="nombre" class="form-control" minlength="3" required>
         </div>
 
         <div class="col-md-6 mb-3">
           <label>Apellido</label>
-          <input type="text" id="apellido" class="form-control" required>
+          <input type="text" id="apellido" class="form-control" minlength="3" required>
         </div>
 
         <div class="col-md-6 mb-3">
@@ -33,12 +33,13 @@
 
         <div class="col-md-6 mb-3">
           <label>Dirección</label>
-          <input type="text" id="direccion" class="form-control" required>
+          <input type="text" id="direccion" class="form-control" minlength="5" required>
         </div>
       </div>
 
-      <button class="btn btn-outline-primary" type="submit" id="btnGuardar">Guardar</button>
-      <button class="btn btn-outline-success d-none" type="button" id="btnActualizar">Actualizar</button>
+      <button class="btn btn-outline-primary" type="submit" id="btnGuardar" value="guardar">Guardar</button>
+      <button class="btn btn-outline-success d-none" type="button" id="btnActualizar"
+        value="actualizar">Actualizar</button>
       <button class="btn btn-outline-secondary d-none" type="button" id="btnCancelar">Cancelar</button>
 
     </form>
@@ -158,6 +159,7 @@
 
 
     document.getElementById("formAlumno").addEventListener("submit", async (e) => {
+
       e.preventDefault();
 
       const data = {
@@ -173,14 +175,12 @@
 
     // actualizar alumnos
     btnActualizar.addEventListener("click", async () => {
-
       const data = {
         nombre: nombre.value,
         apellido: apellido.value,
         telefono: telefono.value,
         direccion: direccion.value
       };
-
       const id = idAlumno.value;
       actualizarAlumno(data, id)
       cargarAlumnos();
