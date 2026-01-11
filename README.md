@@ -7,5 +7,5 @@ Se utiliza **Express.js para el backend a si como **HTML y JavaScript** para fro
 
 
 ---
-Se agregará más adelante un backend hecho con c# manteniendo la misma funcionalidad sin modificar el frontend 
+**Se agregará** más adelante un backend hecho con **c#** manteniendo la misma funcionalidad sin modificar el frontend 
 en la carpeta analisis se encuentra un breve analisis sobre que tecnologia se podría estar utilizando.
